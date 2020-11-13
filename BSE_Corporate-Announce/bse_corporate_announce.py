@@ -1,5 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoSuchElementException
+
 import time
 import pync
 import os
@@ -36,20 +38,13 @@ while True:
 
 		submit = driver.find_element_by_xpath("//input[@id='btnSubmit']").click()
 		time.sleep(5)
-		pdf = driver.find_element_by_xpath("//td[@class='tdcolumngrey ng-scope']/a[@href]")
-
-		if pdf != None:
-			pync.notify(securityName +'\n'+ str(datetime.datetime.now().time()), title='Results!!!',sound="default",open=driver.find_element_by_xpath("//td[@class='tdcolumngrey ng-scope']/a").get_attribute('href'),appIcon="bse-logo.png")
+		pdf = driver.find_elements_by_xpath("//td[@class='tdcolumngrey ng-scope']/a[@href]")
+		if len(pdf) > 0:
+			pync.notify(securityName +'\n'+ str(datetime.datetime.now().time()), title='Results!!!',sound="default",open=driver.find_element_by_xpath("//td[@class='tdcolumngrey ng-scope']/a").get_attribute('href'),appIcon="/Users/pranjal/Desktop/Stock/bse-logo.png")
 			resultsOut.append(securityName)
-
-		else:
-			time.sleep(5)
-			#driver.find_element_by_xpath("//td[@class='tdcolumngrey ng-scope']/a[@href]").click()
 
 	for results in resultsOut:
 		stocks.remove(results)
 
 file1.close()
-
-
 
